@@ -4,7 +4,7 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class PersonDto {
     @Length(3, 10)
-    @ApiProperty({description:'Enter your name > ', minLength: 3, default: 'Ali', maxLength: 10})
+    @ApiProperty({description: 'Enter your name > ', minLength: 3, default: 'Ali', maxLength: 10})
     name: string;
 
     @IsNumber()

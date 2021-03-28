@@ -1,8 +1,7 @@
-import { Controller, Post, Body, Get, Header, Query } from '@nestjs/common';
+import { Controller, Post, Body, Get, Header, Query, UsePipes, ValidationPipe } from '@nestjs/common';
 import { PersonDto } from './dto/person.dto';
 import { HelloService } from './hello.service';
 import { ApiResponse, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
-
 
 @Controller('hello')
 export class HelloController {
@@ -23,7 +22,6 @@ export class HelloController {
         name: 'name',
         required: true,
         type: String,
-    //    enum : ["All", "Browser", "Device"]
     })
     @ApiQuery({
         name: 'year',
@@ -33,8 +31,8 @@ export class HelloController {
     })
 
     @Get('welcome')
-    async sayWelcome2(@Query('name') iName, @Query('year') iYear): Promise<{data : String}> {
-        let msg = await this.helloService.welcome({name : iName, year : iYear});
+    async sayWelcome2(@Query() personDto: PersonDto): Promise<{data : String}> {
+        let msg = await this.helloService.welcome(personDto);
         return {data : msg};
     }
 }
