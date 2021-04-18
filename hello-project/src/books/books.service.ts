@@ -2,7 +2,7 @@
 import BookEntity from '../db/entity/book.entity';
 import CreateBookDto from './dto/create-book.dto';
 import UserEntity from '../db/entity/user.entity';
-import { createQueryBuilder, getConnection } from 'typeorm';
+import { getRepository } from 'typeorm';
 import GenreEntity from '../db/entity/genre.entity';
 
 export class BooksService {
@@ -15,14 +15,29 @@ export class BooksService {
     book.genres=[];
     for ( let i = 0; i < genreIDs.length ; i++)
     {
-             const genre = await GenreEntity.findOne(genreIDs[i]);
-             book.genres.push(genre);
+      const genre = await GenreEntity.findOne(genreIDs[i]);
+      book.genres.push(genre);
     }
     await book.save();
     return book;
   }
   async getAllBooks(): Promise<BookEntity[] > {
-    // const user: UserEntity = await UserEntity.findOne({where: {id: 2}, relations: ['books']});
     return BookEntity.find();
   }
+  async updateBook(id: string, bookDetails: CreateBookDto): Promise<BookEntity> {
+    const book = await getRepository(BookEntity).findOneOrFail(id);
+    book.name = bookDetails.name;
+    book.genres = []
+    for ( let i = 0; i < bookDetails.genreIDs.length ; i++)
+    {
+      const genre = await GenreEntity.findOne(bookDetails.genreIDs[i]);
+      book.genres.push(genre);
+    }
+    return getRepository(BookEntity).save(book);
+  }
+  async deleteBook(id: string){
+    const book = await getRepository(BookEntity).findOneOrFail(id);
+    return getRepository(BookEntity).remove(book);
+  }
+
 }
