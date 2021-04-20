@@ -13,21 +13,29 @@ import { HelloModule } from './hello/hello.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersService } from './users/users.service';
 import { UsersModule } from './users/users.module';
+import { FreelancerModule } from './freelancer/freelancer.module';
+import { EmployerModule } from './employer/employer.module';
+import { CommentModule } from './comment/comment.module';
+import { ProjectModule } from './project/project.module';
+import FreelancerEntity from './db/entity/freelancer.entity';
+import EmployerEntity from './db/entity/employer.entity';
+import CommentEntity from './db/entity/comment.entity';
+import ProjectEntity from './db/entity/project.entity';
 
 @Module({
-  imports: [//HelloModule,
-            UserModule ,
-            BooksModule,
-            GenreModule,
+  imports: [
     TypeOrmModule.forFeature(
-      [UserEntity, BookEntity , GenreEntity],
+      [FreelancerEntity, EmployerEntity, CommentEntity, ProjectEntity],
     ),
 
     TypeOrmModule.forRoot(),
 
     AuthModule,
-
     UsersModule,
+    FreelancerModule,
+    EmployerModule,
+    CommentModule,
+    ProjectModule,
   ],
   controllers: [AppController],
   providers: [AppService, UsersService],
