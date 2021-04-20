@@ -10,9 +10,12 @@ import GenreModule from './genre/genre.module';
 import BookEntity from './db/entity/book.entity';
 import GenreEntity from './db/entity/genre.entity';
 import { HelloModule } from './hello/hello.module';
+import { AuthModule } from './auth/auth.module';
+import { UsersService } from './users/users.service';
+import { UsersModule } from './users/users.module';
 
 @Module({
-  imports: [HelloModule,
+  imports: [//HelloModule,
             UserModule ,
             BooksModule,
             GenreModule,
@@ -21,8 +24,12 @@ import { HelloModule } from './hello/hello.module';
     ),
 
     TypeOrmModule.forRoot(),
+
+    AuthModule,
+
+    UsersModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, UsersService],
 })
 export class AppModule {}
